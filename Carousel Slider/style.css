@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    min-height: 50px;
+}
+
+.page-title {
+    color: yellow;
+    font-size: 30px;
+    padding: 5px;
+}
+
+.wrapper {
+    width: 768px;
+    height: 500px;
+    border: 2px solid goldenrod;
+    margin: 20px auto;
+    padding: 10px;
+    position: relative;
+}
+
+.left-icon {
+    top: 50%;
+    left: 20px;
+    cursor: pointer;
+    position: absolute;
+    color: white;
+}
+
+.right-icon {
+    top: 50%;
+    right:20px;
+    cursor: pointer;
+    position: absolute;
+    color: white;
+}
