@@ -1,0 +1,63 @@
+:root{
+  --bg-color: #222831;
+  --text-color: #eeeeee;
+  --active-color: #00adb5;
+  --secondary: #393e46;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color); 
+}
+
+.jumbotron {
+    padding: 0;
+    margin: 0;
+    background: var(--secondary);
+    border-bottom: 4px solid goldenrod;
+}
+
+.title {
+    padding: 15px;
+    color: var(--text-color);
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-container {
+    position: absolute;
+    top: 117px;
+    bottom: 0;
+    width: 15%;
+    border-right: 4px solid goldenrod;
+    background: var(--secondary);
+}
+
+.lead {
+    color: #eeeeee;
+}
+
+.items li {
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.items li.active {
+  background: var(--active-color);
+}
+
+.items li:not(.active) a:hover {
+  background: var(--bg-color);
+  cursor: pointer;
+}
+
+.main-container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
