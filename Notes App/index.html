@@ -9,8 +9,6 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>Notes App</title>
 </head>
 
@@ -21,16 +19,13 @@
         <p class="sub-title">An app to store all your notes at one place!</p>
     </header>
 
-    <div class="container">
-        <div class="note">
-            <p>Create Note</p>
-            <i class="fa fa-sticky-note fa-2x" data-toggle="modal" data-target="#createNoteModal"></i>
-        </div>
-        <div class="note">
-            <p>View Notes</p>
-            <i class="fa fa-eye fa-2x" data-toggle="modal" data-target="#viewNotesModal"></i>
-        </div>
-    </div>
+    <div class="notes-container"></div>
+
+    <div class="no-data-container"></div>
+
+    <a class="float-button">
+        <i class="fa fa-plus plus-icon" data-toggle="modal" data-target="#createNoteModal"></i>
+    </a>
 
     <!-- Create Note Modal -->
     <div class="modal fade" id="createNoteModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
@@ -44,37 +39,82 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Create</button>
+                    <form class="create-note">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter note title..."
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select class="form-control" id="category" required>
+                                <option selected disabled>Select Category</option>
+                                <option value="1">Reminders</option>
+                                <option value="2">Technology</option>
+                                <option value="3">Miscellaneous</option>
+                            </select>
+                            <span class="category-msg error" style="display: none;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" rows="3"
+                                placeholder="Enter note description..." required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Create" class="btn btn-primary create">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-     <!-- View Notes Modal -->
-     <div class="modal fade" id="viewNotesModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel"
-     aria-hidden="true">
-     <div class="modal-dialog" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalLabel">Existing Notes</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                 </button>
-             </div>
-             <div class="modal-body">
-                 
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             </div>
-         </div>
-     </div>
- </div>
+    <!-- Edit Notes Modal -->
+    <div class="modal fade editNotes" id="editNotesModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="edit-note">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="edittitle" placeholder="Enter note title..."
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select class="form-control" id="editcategory" required>
+                                <option selected disabled>Select Category</option>
+                                <option value="1">Reminders</option>
+                                <option value="2">Technology</option>
+                                <option value="3">Miscellaneous</option>
+                            </select>
+                            <span class="category-msg error" style="display: none;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="editdescription" rows="3"
+                                placeholder="Enter note description..." required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Save" class="btn btn-primary edit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="app.js"></script>
 </body>
 
