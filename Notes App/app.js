@@ -1,5 +1,5 @@
 //Declaration of variables and creation of references to the elements in the DOM
-let notesNotAvailable = false;
+let notesAvailable = false;
 let selectedNoteId = '';
 const editNotesModal = document.querySelector('.editNotes');
 const createNoteModal = document.querySelector('#createNoteModal');
@@ -9,9 +9,12 @@ const editNote = document.querySelector('.edit-note');
 const categorySpan = document.querySelector('.category-msg');
 const noDataContainer = document.querySelector('.no-data-container');
 const cardContainer = document.querySelector('.notes-container');
+const badgeStyle = document.querySelector('.badge-style')
 
-let notes = JSON.parse(localStorage.getItem('notes')) ? JSON.parse(localStorage.getItem('notes')) : null;
-let createdNotes = notes;
+let notes = JSON.parse(localStorage.getItem('notes')) ? JSON.parse(localStorage.getItem('notes')) : {};
+// console.log(notes, " ", !!notes, " ", Object.keys(notes).length);
+let createdNotes = !!notes && Object.keys(notes).length != 0 ? notes : [];
+// console.log(createdNotes);
 
 
 /**
@@ -21,13 +24,17 @@ let createdNotes = notes;
  */
 function checkForExistingNotes(createdNotes) {
 
-    if (createdNotes.length == 0) {
-        notesNotAvailable = true;
-    } else {
-        notesNotAvailable = false;
+    console.log(createdNotes);
+
+    if (!!createdNotes) {
+        if (createdNotes.length == 0) {
+            notesAvailable = false;
+        } else {
+            notesAvailable = true;
+        }
     }
 
-    return notesNotAvailable;
+    return notesAvailable;
 }
 
 //Generates HTML template for no notes to display message
@@ -54,7 +61,13 @@ function generateNotesTemplate(notes) {
     
     notes.forEach(note => {
         template += `<div class="card" style="width: 18rem;">
-                        <i class="card-img-top fa fa-sticky-note fa-5x sticky-note text-center" alt="Note"></i>
+                        <div class="notes-header">
+                          <i class="card-img-top fa fa-sticky-note fa-5x sticky-note" alt="Note"></i>
+                          <div class="time-container">
+                            <span class="time">${note.date}</span>
+                            <i class="fa fa-clock-o fa-2x"></i>
+                          </div>
+                        </div>
                         <div class="card-body">
                             <div style="display:none">${note.id}</div><br>
                             <h5 class="card-title"><strong>Title: </strong>${note.title}</h5><br>
@@ -131,6 +144,11 @@ function generateUUID() {
     return UUID;
 }
 
+function generateCreatedDate() {
+    const now = new Date();
+    return dateFns.format(now, 'Do MMM YYYY');
+}
+
 
 /**
  * Creates a note obj with the necessary properties
@@ -142,6 +160,7 @@ function addNote(note) {
     noteObj.title = note.title.value;
     noteObj.category = getCategoryName(note.category.value);
     noteObj.description = note.description.value;
+    noteObj.date = generateCreatedDate();
     return noteObj;
 }
 
@@ -164,11 +183,11 @@ function editSelectedNote(editedNote, noteId) {
 
 function hideShowNoDataMessage(result) {
     if (result) {
+        noDataContainer.style.display = 'none';
+    } else {
         let template = generateNoDataTemplate();
         noDataContainer.innerHTML = template;
         noDataContainer.style.display = 'block';
-    } else {
-        noDataContainer.style.display = 'none';
     }
 }
 
@@ -191,21 +210,23 @@ createNote.addEventListener('submit', e => {
     } else {
         categorySpan.style.display = 'none';
         noteObj = addNote(createNote);
+        console.log("Note Obj after function call ends ::", noteObj);
         createdNotes.push(noteObj);
     }
 
     createNote.reset();
 
-    let template = generateNotesTemplate(createdNotes);
     let result = checkForExistingNotes(createdNotes);
     hideShowNoDataMessage(result);
-
-    cardContainer.innerHTML = template;
-
     localStorage.setItem('notes', JSON.stringify(createdNotes));
 
-    if(!result) {
+    if(result) {
+        let template = generateNotesTemplate(createdNotes);
+        cardContainer.innerHTML = template;
         cardContainer.style.display = 'flex';
+        badgeStyle.textContent = createdNotes.length;    
+    } else {
+        badgeStyle.textContent = 0;
     }
 
 });
@@ -231,10 +252,14 @@ cardContainer.addEventListener('click', e => {
 
         if(createdNotes.length == 0) {
             cardContainer.style.display = 'none';
+            badgeStyle.textContent = 0;
+        } else {
+            badgeStyle.textContent = createdNotes.length;
         }
 
         hideShowNoDataMessage(result);
         cardContainer.innerHTML = template;
+        
     }
 
     localStorage.setItem('notes', JSON.stringify(createdNotes));
@@ -256,24 +281,29 @@ editNote.addEventListener('submit', e => {
 
     editNote.reset();
 
-    let template = generateNotesTemplate(createdNotes);
     let result = checkForExistingNotes(createdNotes);
     hideShowNoDataMessage(result);
 
-    cardContainer.innerHTML = template;
-
-    if(!result) {
+    if(result) {
+        let template = generateNotesTemplate(createdNotes);
+        cardContainer.innerHTML = template;
         cardContainer.style.display = 'flex';
+    } else {
+        badgeStyle.textContent = 0;
     }
 
 });
 
-notes = JSON.parse(localStorage.getItem('notes'));
-let result = checkForExistingNotes(notes);
+let result = checkForExistingNotes(createdNotes);
 hideShowNoDataMessage(result);
 
-if(!result) {
+if(result) {
     let template = generateNotesTemplate(notes);
     cardContainer.innerHTML = template;
     cardContainer.style.display = 'flex'; 
+    badgeStyle.textContent = createdNotes.length;
+} else {
+    badgeStyle.textContent = 0;
 }
+
+console.log(generateCreatedDate());

@@ -13,6 +13,18 @@ header {
     text-align: center;
 }
 
+.badge-container {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+}
+
+.badge-style {
+    margin: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
 .title{
     color: var(--text-color);
     padding: 10px;
@@ -55,6 +67,23 @@ header {
 .note i{
     color: var(--text-color);
     cursor: pointer;
+}
+
+.notes-header {
+    display: flex; 
+}
+
+.notes-header i {
+    width: 30%;
+    padding: 5px;
+    margin: 10px;
+}
+
+.time-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 15px;
 }
 
 .no-data {
