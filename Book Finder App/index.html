@@ -14,20 +14,30 @@
 <body>
 	<div class="container my-4">
 		<h2 class="text-center title">Book Finder</h2>
-		<form class="search-form">
-			<div class="input-group my-5">
-				<label for="search-text"></label>
-				<input type="search" name="searchText" class="form-control"
-					placeholder="Search by author, title, subject name ..." required>
-				<div class="input-group-append">
-					<button class="input-group-text search-button">
-						<i class="fa fa-search text-white"></i>
-					</button>
+		<div class="d-flex justify-content-center">
+			<form class="search-form">
+				<div class="input-group my-5">
+					<label for="search-text"></label>
+					<input type="search" name="searchText" class="form-control"
+						placeholder="Search by author, title, subject name ..." required>
+					<div class="input-group-append">
+						<button class="input-group-text search-button">
+							<i class="fa fa-search text-white"></i>
+						</button>
+					</div>
 				</div>
+			</form>
+			<div class="d-flex">
+				<button class="btn wishlist text-white" disabled>
+					<i class="fa fa-plus"></i>
+					Add To Wishlist
+				</button>
 			</div>
-		</form>
+		</div>
+		<div class="loader d-flex justify-content-center"></div>
 	</div>
 	<div class="books-list d-flex flex-wrap"></div>
+	<script src="lang-codes.js"></script>
 	<script src="books.js"></script>
 	<script src="app.js"></script>
 </body>
