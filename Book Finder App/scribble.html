@@ -1,0 +1,51 @@
+<!-- html template for the rest of the fields to be shown -->
+<p>
+  <strong class="item-label">Publisher: </strong> 
+  <span class="text-white">${publisher}</span>
+</p>
+<p>
+  <strong class="item-label">Published Date: </strong> 
+  <span class="text-white">${publishedDate}</span>
+</p>
+<p>
+  <strong class="item-label">Description: </strong> 
+  <span class="text-white description" data-toggle="tooltip" data-placement="top" title="${description}">
+    ${description.substring(0,20)}...
+  </span>
+</p>
+<p>
+  <strong class="item-label">Category: </strong> 
+  <span class="text-white">${categories}</span>
+</p>
+<p>
+  <strong class="item-label">Page Count: </strong> 
+  <span class="text-white">${pageCount}</span>
+</p>
+
+
+<p>
+  <strong class="item-label">Language : </strong> 
+  <span class="text-white">${language}</span>
+</p>
+
+
+<!--- End of html templates -->
+
+<!-- script code scribble start -->
+
+<script>
+  //Destructure properties from api response
+  let {
+    publisher, 
+    publishedDate, 
+    description, 
+    categories, 
+    pageCount,
+    language
+  } = data.volumeInfo;
+
+  //Sample checking of properties for existence before rendering them.
+  item.volumeInfo.description = checkIfPresent(item.volumeInfo.description);
+  item.volumeInfo.language = item.volumeInfo.language ? langCodes[item.volumeInfo.language].nativeName : 'Not Found';
+
+</script>

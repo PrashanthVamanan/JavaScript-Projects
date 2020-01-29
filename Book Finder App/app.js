@@ -3,15 +3,27 @@ const searchForm = document.querySelector('.search-form');
 const booksList = document.querySelector('.books-list');
 const loader = document.querySelector('.loader');
 const addToWishList = document.querySelector('.wishlist');
+const errorMessage = document.querySelector('.error-message');
 
 //Class instances
 const book = new Book();
+
+//Other variables
+let wishlistElements = [];
 
 //Utility functions
 checkIfPresent = field => {
   let result = null;
   result = field ? (field instanceof Array ? field.toString() : field) : 'Not Found';
   return result;
+}
+
+setErrorMessage = (message) => {
+  errorMessage.innerHTML = message;
+  errorMessage.classList.add('d-flex');
+  setTimeout(() => {
+    errorMessage.classList.remove('d-flex');
+  }, 3000)
 }
 
 addLoadingIcon = () => {
@@ -22,6 +34,8 @@ addLoadingIcon = () => {
 removeLoadingIcon = () => {
   loader.innerHTML = '';
 }
+
+//End of utility functions
 
 searchForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -36,24 +50,34 @@ searchForm.addEventListener('submit', e => {
           let { items } = data;
             if(items !== undefined) {
               removeLoadingIcon();
-              items.forEach(item => {
-                item.volumeInfo.publisher = checkIfPresent(item.volumeInfo.publisher);
+              items.forEach((item,index) => {
+                item.volumeInfo.title = checkIfPresent(item.volumeInfo.title);
                 item.volumeInfo.authors = checkIfPresent(item.volumeInfo.authors);
-                item.volumeInfo.categories = checkIfPresent(item.volumeInfo.categories);
-                item.volumeInfo.pageCount = checkIfPresent(item.volumeInfo.pageCount);
-                item.volumeInfo.publishedDate = checkIfPresent(item.volumeInfo.publishedDate);
                 item.volumeInfo.averageRating = checkIfPresent(item.volumeInfo.averageRating);
-                item.volumeInfo.description = checkIfPresent(item.volumeInfo.description);
-                item.volumeInfo.language = item.volumeInfo.language ? langCodes[item.volumeInfo.language].nativeName : 'Not Found';
+                item.volumeInfo.imageLinks = checkIfPresent(item.volumeInfo.imageLinks);
                 book.renderData(item);
               })
           }
+        } else {
+          removeLoadingIcon();
+          setErrorMessage('No data to display. Try alternate search terms');
         }
       })
       .catch(err => {
-        console.log("Error ::", err);
+        removeLoadingIcon();
+        setErrorMessage(err);
     });
 
     searchForm.reset();
+  }
+});
+
+booksList.addEventListener('click', e => {
+  let parentDiv = e.target.parentElement.parentElement;
+  if(e.target.checked){
+    parentDiv.classList.add('green-border');
+    wishlistElements.push(parentDiv);
+  } else {
+    parentDiv.classList.remove('green-border');
   }
 })

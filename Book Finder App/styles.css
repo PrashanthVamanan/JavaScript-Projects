@@ -17,6 +17,7 @@ body {
     margin: 10px;
     padding: 5px;
     border: 2px solid #f39422;
+    min-width: 250px;
 }
 
 .book-details {
@@ -51,4 +52,13 @@ body {
 
 button:disabled:hover {
     cursor: not-allowed;
+}
+
+.error-message {
+    max-width: 550px;
+    margin: 0px auto;
+}
+
+.green-border {
+    border: 2px solid #4BB543;
 }
