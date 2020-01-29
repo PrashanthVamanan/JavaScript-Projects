@@ -12,12 +12,14 @@ class Book {
     return data;
   }
 
-  renderData(data) {
+  renderData(data, index) {
     let { title, 
           authors,
           averageRating,
           imageLinks
         } = data.volumeInfo;
+    let strData = JSON.stringify(data.volumeInfo);
+    console.log(strData)
     let html = `
       <div class="book-item d-flex justify-content-between">
         <div>
@@ -37,7 +39,7 @@ class Book {
           <span class="text-white">${averageRating}</span>
         </p>
         <div class="show-more d-flex justify-content-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Show More ...</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick='onModalClick(${strData})'>Show More ...</button>
        </div>
       </div>
       <div class="d-flex justify-content-end">
@@ -46,7 +48,6 @@ class Book {
     `;
 
     booksList.innerHTML += html;
-    return booksList.innerHTML;
 
   }
 
