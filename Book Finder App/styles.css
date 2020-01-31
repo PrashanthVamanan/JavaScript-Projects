@@ -12,6 +12,10 @@ body {
     background: #010038;
 }
 
+.close-button {
+    background: #f39422;
+}
+
 .book-item {
     max-width: 400px;
     margin: 10px auto;
