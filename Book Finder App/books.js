@@ -19,9 +19,8 @@ class Book {
           imageLinks
         } = data.volumeInfo;
     let strData = JSON.stringify(data.volumeInfo);
-    console.log(strData)
     let html = `
-      <div class="book-item d-flex justify-content-between">
+      <div class="book-item d-flex justify-content-between" id="${index}">
         <div>
           <img src="${imageLinks.smallThumbnail}" alt="No Image Found">
         </div>
@@ -43,7 +42,7 @@ class Book {
        </div>
       </div>
       <div class="d-flex justify-content-end">
-       <input type ="checkbox" class="checkbox-status">
+       <input type ="checkbox" class="checkbox-status" id="checkbox">
       </div>
     `;
 
