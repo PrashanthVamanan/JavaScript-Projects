@@ -1,0 +1,13 @@
+body {
+  background:  #010038;
+}
+
+.title {
+   color: #f39422;
+   text-decoration: underline;
+   letter-spacing: 0.1em;
+}
+
+.item-label {
+  color: #f39422;
+}

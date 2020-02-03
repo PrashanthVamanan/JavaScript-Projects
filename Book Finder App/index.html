@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="node_modules/toastr/toastr.scss">
 	<link rel="stylesheet" href="styles.css">
 </head>
 
@@ -33,8 +34,8 @@
 					Add To Wishlist
 				</button>
 			</div>
-			<div class="d-flex">
-				<button class="btn text-white close-button wishlist">
+			<div class="d-none view-wishlist">
+				<button class="btn text-white close-button view-button wishlist">
 					<i class="fa fa-eye"></i>
 					View Wishlist
 				</button>
@@ -47,8 +48,9 @@
 	<div class="modal-container"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-	
+	<script src="node_modules/toastr/toastr.js"></script>
 	<script src="util/lang-codes.js"></script>
+	<script src="scripts/wishlist.js"></script>
 	<script src="scripts/templates.js"></script>
 	<script src="scripts/utility.js"></script>
 	<script src="scripts/books.js"></script>

@@ -2,9 +2,11 @@
 const searchForm = document.querySelector('.search-form');
 const booksList = document.querySelector('.books-list');
 const loader = document.querySelector('.loader');
-const addToWishList = document.querySelector('.wishlist');
+const addToWishListButton = document.querySelector('.wishlist');
 const errorMessage = document.querySelector('.error-message');
 const modalContainer = document.querySelector('.modal-container');
+const viewWishList = document.querySelector('.view-wishlist');
+const viewWishListButton = document.querySelector('.view-button');
 
 //Class instances
 const book = new Book();
@@ -61,12 +63,13 @@ booksList.addEventListener('click', e => {
     parentDiv.classList.remove('green-border');
     wishlistElements = wishlistElements.filter(item => item.id != divId);
   }
-  addToWishList.disabled = wishlistElements.length > 0 ? false : true;
-  if(!addToWishList.disabled) {
-    addToWishList.style.cursor = "pointer";
+  addToWishListButton.disabled = wishlistElements.length > 0 ? false : true;
+  if (!addToWishListButton.disabled) {
+    addToWishListButton.style.cursor = "pointer";
   } else {
-    addToWishList.style.cursor = "not-allowed"
+    addToWishListButton.style.cursor = "not-allowed"
   }
+  updateCheckBoxStatus(!addToWishListButton.disabled, viewWishListButton);
 })
 
 //handle modal click to view more details
@@ -90,3 +93,15 @@ generateModalAndPopulate = data => {
 }
 
 //Handle event when user clicks on Add wishlist button
+addToWishListButton.addEventListener('click', () => {
+  if (!addToWishListButton.disabled) {
+    addToWishList(wishlistElements,viewWishList);
+  }
+})
+
+//Handle event when user clicks on View wishlist button
+viewWishListButton.addEventListener('click', () => {
+  if(viewWishListButton){
+    location.href="view-wishlist.html";
+  }
+})
