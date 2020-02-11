@@ -1,0 +1,53 @@
+body {
+  background: #352f5b;
+}
+
+.container {
+  max-width: 400px;
+}
+
+input[type=text],
+input[type=text]:focus {
+  color: #fff;
+  border: none;
+  background: rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+}
+
+.todos li {
+  background: #423a6f;
+}
+
+.bg-color {
+  background: #352f5b;
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.filtered {
+  display: none !important;
+}
+
+.date {
+  padding: 2px;
+  margin: 5px;
+}
+
+.date i {
+  margin-right: 10px;
+  padding-bottom:10px;
+}
+
+.add {
+  margin-top: 20px;
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+.incomplete {
+  text-decoration: none;;
+}
