@@ -17,9 +17,9 @@ class TodoUI {
 
     const html = `
         <div class="d-flex flex-column bg-color todo-item">
-          <li data-id="${id}" class="list-group-item ${lineThrough} d-flex justify-content-between align-items-center">
+          <li data-id="${id}" class="list-group-item d-flex justify-content-between align-items-center">
               <input type="checkbox" class="checkbox" />
-              <span>${todo.task}</span>
+              <span class='${lineThrough}'>${todo.task}</span>
               <span class='${this.class}' style="cursor:pointer;">${todo.status}</span>
               <i class="fa fa-trash delete"></i>
           </li>
@@ -51,6 +51,10 @@ class TodoUI {
         return;
       }
     })
+  }
+
+  clear() {
+    this.list.innerHTML = '';
   }
 
 }

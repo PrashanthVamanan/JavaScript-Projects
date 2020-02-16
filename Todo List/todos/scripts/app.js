@@ -1,10 +1,13 @@
+//DOM Queries
 const form = document.querySelector('.add');
 const list = document.querySelector('.todos');
 const searchQuery = document.querySelector('.search input');
+const categories = document.querySelector('.categories');
+const updateForm = document.querySelector('.update');
 
 //Class Instances
 const todoUI = new TodoUI(list);
-const todo = new Todo();
+const todo = new Todo('general');
 
 
 //Get existing todos
@@ -61,4 +64,15 @@ list.addEventListener('click', e => {
 searchQuery.addEventListener('keyup', e => {
   const searchTerm = e.target.value.trim().toLowerCase();
   todo.filterTodos(searchTerm, list);
+});
+
+//Display todos as per selected category
+categories.addEventListener('click', e => {
+  if(e.target.tagName === 'LI'){
+    todoUI.clear();
+    todo.updateCategory(e.target.innerHTML);
+    todo.getTodos((data, id, type) => {
+      todoUI.render(data, id, type);
+    })
+  }
 });

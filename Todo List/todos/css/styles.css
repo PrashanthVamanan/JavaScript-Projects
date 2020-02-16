@@ -51,3 +51,24 @@ input[type=text]:focus {
 .incomplete {
   text-decoration: none;;
 }
+
+.categories {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  min-width: 500px;
+}
+
+.category {
+  width: auto;
+  display: inline-block;
+  border-radius: 2px;
+  background:  #ffbd69;
+  color: #423a6f;
+  text-transform: capitalize;
+}
+
+.update-button {
+  background: #ffbd69;
+}
