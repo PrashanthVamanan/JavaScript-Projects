@@ -12,10 +12,9 @@ const todo = new Todo('general');
 
 //Get existing todos
 todo.getTodos((data, id, type) => {
-  console.log("type", type);
   if (type === 'added' || type === 'modified')
     todoUI.render(data, id, type);
-  else if (type === 'removed')
+  else if (type == 'removed')
     todoUI.deleteTodo(id);
 });
 
@@ -72,7 +71,10 @@ categories.addEventListener('click', e => {
     todoUI.clear();
     todo.updateCategory(e.target.innerHTML);
     todo.getTodos((data, id, type) => {
-      todoUI.render(data, id, type);
+      if(type === 'added' || type === 'modified')
+        todoUI.render(data, id, type);
+      else
+        todoUI.deleteTodo(id);
     })
   }
 });

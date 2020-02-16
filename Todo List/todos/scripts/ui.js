@@ -5,7 +5,6 @@ class TodoUI {
   }
 
   render(todo, id, type) {
-
     this.class = todo.status === 'incomplete' ? 'badge badge-danger' : todo.status === 'complete' ? 'badge badge-success' : 'badge';
     let lineThrough = todo.status === 'complete' ? 'complete' : 'incomplete'
 
