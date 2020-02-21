@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <title>JSON to CSV Converter</title>
+</head>
+
+<body>
+  <header>
+    <h3 class="text-center pt-3 mt-10">JSON to CSV Converter</h3>
+  </header>
+  <hr>
+  <form class="jsonForm">
+    <div class="form-group">
+      <label for="jsonInput">Paste/Type your JSON Input Here ( No nested JSON allowed! ) </label>
+      <textarea class="form-control form-control-sm json p-3 m-auto p-4" id="jsonInput" rows="5" colums="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate CSV</button>
+  </form>
+  <h4 class="text-danger error-msg text-center mt-10 p-3" style="display:none"></h4>
+  <form class="csvForm" style="display:none;">
+    <div class="form-group">
+      <label for="csvOutput">Your Generated CSV: </label>
+      <textarea class="form-control form-control-sm csv p-3 m-auto p-4" id="csvOutput" rows="5" colums="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary csvButton">Download CSV</button>
+  </form>
+  <script src="app.js"></script>
+</body>
+
+</html>

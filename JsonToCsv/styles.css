@@ -1,0 +1,9 @@
+form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+form textarea.json, textarea.csv {
+  width: 500px;
+}
