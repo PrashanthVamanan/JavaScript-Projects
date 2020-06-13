@@ -13,6 +13,10 @@
   text-decoration: none;
 }
 
+li {
+  list-style-type: none;
+}
+
 /* base styles */
 body {
   background: #024249;
@@ -31,6 +35,25 @@ nav h2 {
   padding: 20px 10px;
   border-bottom: 2px solid var(--header);
 }
+
+
+.nav-container {
+  display: inline-flex;
+  margin: 20px 0px;
+ }
+ 
+ .nav-container li {
+   padding: 5px;
+   font-size: 1.2em;
+ }
+ 
+ .nav-container li a {
+   color: var(--header);
+ }
+ 
+ .nav-container li a:hover {
+   color: #c0c0c0;
+ } 
 
 .grid {
   display: grid;
@@ -72,7 +95,56 @@ nav h2 {
   margin: 5px 0px;
 }
 
+.active {
+  background: #024249;
+}
+
+.paginator-controls {
+  padding: 10px 0px;
+}
+
+.paginator-controls span {
+  margin: 1%;
+  color: #c0c0c0;
+}
+
+.paginator-controls button{
+  width: 7%;
+  margin-right:1%; 
+  background: var(--header);
+  color: #024249;
+  border: none;
+}
+
+.footer {
+  background: #232931;
+  width: 100%;
+}
+
+.footer p {
+  color: var(--header);
+  font-size: 1.2em;
+  grid-column: 3/8;
+}
+
 /* Media Queries */
+
+/* Mobile Styles */
+@media screen and (max-width:540px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav h2 {
+    text-align: center;
+    font-size: 2em;
+    border-bottom: 2px solid var(--header);
+  }
+
+  .nav-container {
+    margin: 0px auto;
+  }
+}
 
 @media screen and (min-width:760px) {
   .spell-container {
