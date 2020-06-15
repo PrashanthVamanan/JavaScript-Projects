@@ -2,17 +2,23 @@ const currentPageTracker = document.querySelector('.current');
 const totalPageTracker = document.querySelector('.total');
 const prevButton = document.querySelector('.prev');
 const nextButton = document.querySelector('.next');
+const navContainer = document.querySelector('.nav-container');
 
 let spellHolderContainer = null;
 let spellsData = null;
+let wandsData = null;
+let charactersData = null;
 let imageToPick = [1, 2, 3, 4, 5];
 
 let prevPage = 0;
 let currentPage = 1;
 let totalPages = null;
 
-currentPageTracker.textContent = currentPage;
-prevButton.style.display = 'none';
+if (currentPageTracker != null)
+  currentPageTracker.textContent = currentPage;
+
+if (prevButton != null)
+  prevButton.style.display = 'none';
 
 function getSpellDetails() {
   getSpells()
@@ -51,6 +57,24 @@ function populateSpellsData(pageData) {
     `
     spellHolderContainer.innerHTML += html;
   })
+}
+
+function getCharacterWandDetails() {
+  getCharacterOrWandDetails()
+    .then(data => {
+      charactersData = data;
+      //TODO -- Check with classlist and call only if invoked
+      // from wands page
+      populateWandsData(charactersData);
+    }).catch(err => {
+      console.log('Error in fetching characters data ', err);
+    })
+}
+
+function populateWandsData(charactersData) {
+  let filteredData = [];
+  filteredData = charactersData.filter(character => character.wand != null);
+  console.log("Filtered Data ", filteredData);
 }
 
 const incrementPage = () => {

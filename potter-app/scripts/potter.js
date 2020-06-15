@@ -7,3 +7,10 @@ const getSpells = async () => {
   const data = await response.json();
   return data;
 }
+
+const getCharacterOrWandDetails = async () => {
+  const apiEndPoint = `${baseUrl}characters?key=${apiKey}`;
+  const response = await fetch(apiEndPoint);
+  const data = await response.json();
+  return data;
+}

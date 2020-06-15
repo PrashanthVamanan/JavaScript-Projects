@@ -24,6 +24,7 @@ body {
   font-size: 16px;
 }
 
+/*navbar styles */
 nav {
   background: #232931;
   width: 100%;
@@ -36,33 +37,65 @@ nav h2 {
   border-bottom: 2px solid var(--header);
 }
 
-
 .nav-container {
-  display: inline-flex;
-  margin: 20px 0px;
- }
- 
- .nav-container li {
-   padding: 5px;
-   font-size: 1.2em;
- }
- 
- .nav-container li a {
-   color: var(--header);
- }
- 
- .nav-container li a:hover {
-   color: #c0c0c0;
- } 
+ display: inline-flex;
+ margin: 20px 0px;
+}
+
+.nav-container li {
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.nav-container li a {
+  color: var(--header);
+}
+
+.nav-container li a:hover {
+  color: #c0c0c0;
+}
+
+/* home page styles */
 
 .grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.grid-spells {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 }
 
+.container {
+  margin: 50px auto;
+}
+
+.houses div {
+  grid-column: 1/9;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.houses div img {
+  border: 7px solid #232931;
+  border-radius: 5px;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.houses div img:hover {
+  cursor: pointer;
+}
+
 /* spell container styles */
 
-.container {
+.main-spell-container {
   margin: 50px auto;
 }
 
@@ -95,10 +128,7 @@ nav h2 {
   margin: 5px 0px;
 }
 
-.active {
-  background: #024249;
-}
-
+/**pagination styles **/
 .paginator-controls {
   padding: 10px 0px;
 }
@@ -114,6 +144,10 @@ nav h2 {
   background: var(--header);
   color: #024249;
   border: none;
+}
+
+.active {
+  background: #024249;
 }
 
 .footer {
@@ -146,12 +180,19 @@ nav h2 {
   }
 }
 
+/* Tablet Styles */
 @media screen and (min-width:760px) {
+  .houses div {
+    grid-column: span 4;
+    text-align: center;
+    margin: 40px 0;
+  }
   .spell-container {
     grid-column: span 6;
   }
 }
 
+/* Laptops and Desktop Styles */
 @media screen and (min-width:1024px) {
   .spell-container {
     grid-column: span 4;
