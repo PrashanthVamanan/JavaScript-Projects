@@ -23,6 +23,15 @@
       <li><a href="./spells.html">Spells</a></li>
     </ul>
   </nav>
+  <div class="container grid-spells wands-holder"></div>
+  <div class="paginator-controls d-flex justify-content-end">
+    <button value="-1" onclick="decrementPage(); populateNextSet(false);" class="prev">Prev</button>
+    <span class="current">1</span> <span>of</span> <span class="total">1</span>
+    <button value="+1" onclick="incrementPage(); populateNextSet(true);" class="next">Next</button>
+  </div>
+  <div class="footer d-flex justify-content-center">
+    <p>Casted with &hearts; by SPrashanthV</p>
+  </div>
   <script src="../scripts/potter.js"></script>
   <script src="../scripts/app.js"></script>
 </body>

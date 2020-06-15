@@ -5,6 +5,7 @@ const nextButton = document.querySelector('.next');
 const navContainer = document.querySelector('.nav-container');
 
 let spellHolderContainer = null;
+let wandHolderContainer = null;
 let spellsData = null;
 let wandsData = null;
 let charactersData = null;
@@ -63,18 +64,50 @@ function getCharacterWandDetails() {
   getCharacterOrWandDetails()
     .then(data => {
       charactersData = data;
-      //TODO -- Check with classlist and call only if invoked
-      // from wands page
-      populateWandsData(charactersData);
+      if (location.pathname.includes("wands")) {
+        wandHolderContainer = document.querySelector('.wands-holder');
+        wandsData = extractWandsData(charactersData);
+
+        totalPages = Math.ceil(wandsData.length / 12);
+        totalPageTracker.textContent = totalPages;
+
+        let firstPageData = wandsData.slice(0, 12);
+        populateWandsData(firstPageData);
+      }
     }).catch(err => {
       console.log('Error in fetching characters data ', err);
     })
 }
 
-function populateWandsData(charactersData) {
+function extractWandsData(charactersData) {
   let filteredData = [];
   filteredData = charactersData.filter(character => character.wand != null);
-  console.log("Filtered Data ", filteredData);
+  return filteredData;
+}
+
+function populateWandsData(wandsData) {
+
+  wandHolderContainer.innerHTML = '';
+
+  wandsData.forEach(wand => {
+
+    let imageId = imageToPick[Math.floor(Math.random() * imageToPick.length)];
+
+    let html = `
+    <div class="spell-container">
+      <div class="spell-info">
+        <img src="../assets/images/wand-${imageId}.jpg" width="200px" height="150px">
+        <div class="spell-details">
+          <p>Wand: ${wand.wand}</p>
+          <p>Owner: ${wand.name}</p>
+          <p>Species: ${wand.species.charAt(0).toUpperCase() + wand.species.slice(1)}</p>
+        </div>
+      </div>
+    </div>
+    `;
+
+    wandHolderContainer.innerHTML += html;
+  })
 }
 
 const incrementPage = () => {
@@ -105,12 +138,28 @@ function populateNextSet(value) {
   if (value) {
     let nextPageRecordsStart = (currentPage - 1) * 12;
     let nextPageRecordsEnd = (currentPage * 12);
-    let nextPageRecords = spellsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
-    populateSpellsData(nextPageRecords);
+    let nextPageRecords = null;
+
+    if (location.pathname.includes("spells")) {
+      nextPageRecords = spellsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
+      populateSpellsData(nextPageRecords);
+    }
+    else {
+      nextPageRecords = wandsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
+      populateWandsData(nextPageRecords);
+    }
   } else {
     let previousPageRecordsStart = (currentPage - 1) * 12;
     let previousPageRecordsEnd = currentPage * 12;
-    let prevPageRecords = spellsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
-    populateSpellsData(prevPageRecords);
+    let prevPageRecords = null;
+
+    if (location.pathname.includes("spells")) {
+      prevPageRecords = spellsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
+      populateSpellsData(prevPageRecords);
+    }
+    else {
+      prevPageRecords = wandsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
+      populateWandsData(prevPageRecords);
+    }
   }
 }
