@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a8121594d4.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
     crossorigin="anonymous">
   <link rel="stylesheet" href="../styles.css">
   <title>Harry Potter - Characters</title>
 </head>
 
-<body>
+<body onload="getCharacterWandDetails()">
   <nav class="header d-flex justify-content-between">
     <h2 class="py-2">Characters</h2>
-    <ul class="nav-container nav-container-margin">
+    <ul class="nav-container nav-container-margin nav-characters">
       <li><a href="../index.html">Home</a></li>
       <li><a class="active">Characters</a></li>
       <li><a href="./views/wands.html">Wands</a></li>
@@ -24,7 +25,7 @@
   </nav>
   <div class="filter-characters">
     <ul class="nav-container d-flex justify-content-around filter-menu">
-      <li><a href="#" class="active">All</a></li>
+      <li class="underline" style="font-size:1em;"><a href="#" class="active">All</a></li>
       <li><a href="#">Student</a></li>
       <li><a href="#">Professor</a></li>
       <li><a href="#">Head</a></li>
@@ -33,6 +34,10 @@
       <li><a href="#">Headmaster</a></li>
       <li><a href="#">Auror</a></li>
     </ul>
+  </div>
+  <div class="main-characters-container grid-spells"></div>
+  <div class="footer d-flex justify-content-center">
+    <p>Casted with &hearts; by SPrashanthV</p>
   </div>
   <script src="../scripts/potter.js"></script>
   <script src="../scripts/app.js"></script>

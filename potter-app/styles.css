@@ -11,6 +11,7 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
+  box-sizing: border-box;
 }
 
 li {
@@ -48,6 +49,10 @@ nav h2 {
 .nav-container li {
   padding: 5px;
   font-size: 1.2em;
+}
+
+.size {
+  font-size: 1em;
 }
 
 .nav-container li a {
@@ -98,7 +103,7 @@ nav h2 {
 
 /* spell container styles */
 
-.main-spell-container {
+.container, .main-spell-container, .main-characters-container {
   margin: 50px auto;
 }
 
@@ -173,8 +178,12 @@ nav h2 {
   display: inline-flex;
 }
 
-.filter-menu li {
+.underline {
   border-bottom: 2px solid var(--header);
+}
+
+.filter-menu li, .nav-characters li {
+  font-size: 1em;
 }
 
 

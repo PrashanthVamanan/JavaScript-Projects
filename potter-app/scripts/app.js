@@ -6,9 +6,12 @@ const navContainer = document.querySelector('.nav-container');
 
 let spellHolderContainer = null;
 let wandHolderContainer = null;
+let characterHolderContainer = null;
+
 let spellsData = null;
 let wandsData = null;
 let charactersData = null;
+
 let imageToPick = [1, 2, 3, 4, 5];
 
 let prevPage = 0;
@@ -73,6 +76,9 @@ function getCharacterWandDetails() {
 
         let firstPageData = wandsData.slice(0, 12);
         populateWandsData(firstPageData);
+      } else if (location.pathname.includes("characters")) {
+        characterHolderContainer = document.querySelector('.main-characters-container');
+        populateCharactersData();
       }
     }).catch(err => {
       console.log('Error in fetching characters data ', err);
@@ -86,11 +92,8 @@ function extractWandsData(charactersData) {
 }
 
 function populateWandsData(wandsData) {
-
   wandHolderContainer.innerHTML = '';
-
   wandsData.forEach(wand => {
-
     let imageId = imageToPick[Math.floor(Math.random() * imageToPick.length)];
 
     let html = `
@@ -105,9 +108,33 @@ function populateWandsData(wandsData) {
       </div>
     </div>
     `;
-
     wandHolderContainer.innerHTML += html;
   })
+}
+
+/** 
+ * Need to render image based on house property
+ * Need to render proper icon based on blood status
+ * Do Pagination on characters page
+ * Filter characters data based on tab selected
+ */
+
+function populateCharactersData() {
+  charactersData.forEach(character => {
+    let html = `
+     <div class="spell-container">
+      <img src="../assets/images/gryffindor.jpg" width="200px">
+      <div class="spell-info">
+        <div class="spell-details">
+          <p>Name: ${character.name}</p>
+          <p>Blood Status: <i class="fas fa-hourglass-half"></i></p>
+          <p>Species: ${character.species}</p>
+        </div>
+      </div>
+    </div>
+    `;
+    characterHolderContainer.innerHTML += html;
+  });
 }
 
 const incrementPage = () => {
