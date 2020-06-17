@@ -33,41 +33,18 @@ function getSpellDetails() {
 
       spellHolderContainer = document.querySelector('.spells-holder');
       let firstPageData = spellsData.slice(0, 12);
-      populateSpellsData(firstPageData);
+      populateData(firstPageData,spellHolderContainer);
     })
     .catch(err => {
       console.log("Error in fetching spells ", err);
     })
 }
 
-function populateSpellsData(pageData) {
-
-  spellHolderContainer.innerHTML = '';
-
-  pageData.forEach(spell => {
-    let imageId = imageToPick[Math.floor(Math.random() * imageToPick.length)];
-
-    let html = `
-    <div class="spell-container">
-      <div class="spell-info">
-        <img src="../assets/images/spell-${imageId}.jpg" width="200px">
-        <div class="spell-details">
-          <p>Spell: ${spell.spell}</p>
-          <p>Type: ${spell.type}</p>
-          <p>Effect: ${spell.effect}</p>
-        </div>
-      </div>
-    </div>
-    `
-    spellHolderContainer.innerHTML += html;
-  })
-}
-
 function getCharacterWandDetails() {
   getCharacterOrWandDetails()
     .then(data => {
       charactersData = data;
-      if (location.pathname.includes("wands")) {
+      if (isRequestedPage('wands')) {
         wandHolderContainer = document.querySelector('.wands-holder');
         wandsData = extractWandsData(charactersData);
 
@@ -75,10 +52,11 @@ function getCharacterWandDetails() {
         totalPageTracker.textContent = totalPages;
 
         let firstPageData = wandsData.slice(0, 12);
-        populateWandsData(firstPageData);
-      } else if (location.pathname.includes("characters")) {
+        populateData(firstPageData, wandHolderContainer);
+
+      } else if (isRequestedPage('characters')) {
         characterHolderContainer = document.querySelector('.main-characters-container');
-        populateCharactersData();
+        populateData(charactersData, characterHolderContainer);
       }
     }).catch(err => {
       console.log('Error in fetching characters data ', err);
@@ -91,51 +69,81 @@ function extractWandsData(charactersData) {
   return filteredData;
 }
 
-function populateWandsData(wandsData) {
-  wandHolderContainer.innerHTML = '';
-  wandsData.forEach(wand => {
-    let imageId = imageToPick[Math.floor(Math.random() * imageToPick.length)];
-
-    let html = `
-    <div class="spell-container">
-      <div class="spell-info">
-        <img src="../assets/images/wand-${imageId}.jpg" width="200px" height="150px">
-        <div class="spell-details">
-          <p>Wand: ${wand.wand}</p>
-          <p>Owner: ${wand.name}</p>
-          <p>Species: ${wand.species.charAt(0).toUpperCase() + wand.species.slice(1)}</p>
-        </div>
-      </div>
-    </div>
-    `;
-    wandHolderContainer.innerHTML += html;
-  })
-}
-
 /** 
  * Need to render image based on house property
- * Need to render proper icon based on blood status
  * Do Pagination on characters page
  * Filter characters data based on tab selected
  */
 
-function populateCharactersData() {
-  charactersData.forEach(character => {
+ function populateData(data, container) {
+  container.innerHTML = '';
+  let view = getCurrentView(location.pathname);
+
+  data.forEach(item => {
+    let imageId = isRequestedPage('characters') ? 'gryffindor' : imageToPick[Math.floor(Math.random() * imageToPick.length)];
+    let properties = getPropertiesForCurrentView(item);
+    let keys = Object.keys(properties);
+
+
     let html = `
-     <div class="spell-container">
-      <img src="../assets/images/gryffindor.jpg" width="200px">
-      <div class="spell-info">
-        <div class="spell-details">
-          <p>Name: ${character.name}</p>
-          <p>Blood Status: <i class="fas fa-hourglass-half"></i></p>
-          <p>Species: ${character.species}</p>
+      <div class="spell-container">
+        <div class="spell-info">
+          <img src="../assets/images/${view}-${imageId}.jpg" width="200px">
+          <div class="spell-details">
+            <p>${keys[0]}: ${properties[keys[0]]}</p>
+            <p>${keys[1]}: ${properties[keys[1]]}</p>
+            <p>${keys[2]}: ${properties[keys[2]]}</p>
+          </div>
         </div>
       </div>
-    </div>
-    `;
-    characterHolderContainer.innerHTML += html;
-  });
-}
+      `;
+
+    container.innerHTML += html;
+  })
+ }
+
+ function isRequestedPage(path){
+   return location.pathname.includes(path) ? true : false;
+ }
+
+  function getCurrentView(pathname) {
+    if(pathname.includes('wands'))
+      return 'wand';
+    else if(pathname.includes('spells'))
+      return 'spell';
+    else
+      return 'house';
+  } 
+
+  function getPropertiesForCurrentView(data) {
+    if (isRequestedPage('spells')) {
+      let { spell: prop1, type: prop2, effect: prop3 } = data;
+
+      return { 
+        spell: prop1, 
+        type: prop2, 
+        effect: prop3 
+      };
+
+    } else if (isRequestedPage('wands')) {
+      let { wand: prop1, name: prop2, species: prop3 } = data;
+
+      return { 
+        wand: prop1, 
+        name: prop2, 
+        species: prop3 
+      };
+
+    } else {
+      let { name: prop1, bloodStatus: prop2, species: prop3 } = data;
+
+      return { 
+        name: prop1, 
+        bloodStatus: prop2, 
+        species: prop3 
+      };
+    }
+  }
 
 const incrementPage = () => {
   currentPage += 1;
@@ -169,24 +177,24 @@ function populateNextSet(value) {
 
     if (location.pathname.includes("spells")) {
       nextPageRecords = spellsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
-      populateSpellsData(nextPageRecords);
+      populateData(nextPageRecords, spellHolderContainer);
     }
     else {
       nextPageRecords = wandsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
-      populateWandsData(nextPageRecords);
+      populateData(nextPageRecords, wandHolderContainer);
     }
   } else {
     let previousPageRecordsStart = (currentPage - 1) * 12;
     let previousPageRecordsEnd = currentPage * 12;
     let prevPageRecords = null;
 
-    if (location.pathname.includes("spells")) {
+    if (isRequestedPage('spells')) {
       prevPageRecords = spellsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
-      populateSpellsData(prevPageRecords);
+      populateData(prevPageRecords, spellHolderContainer);
     }
     else {
       prevPageRecords = wandsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
-      populateWandsData(prevPageRecords);
+      populateData(prevPageRecords, wandHolderContainer);
     }
   }
 }
