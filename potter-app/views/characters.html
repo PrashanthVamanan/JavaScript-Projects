@@ -30,14 +30,14 @@
   </nav>
   <div class="filter-characters">
     <ul class="nav-container d-flex justify-content-around filter-menu">
-      <li class="underline" style="font-size:1em;"><a href="#" class="active">All</a></li>
-      <li><a href="#">Student</a></li>
-      <li><a href="#">Professor</a></li>
-      <li><a href="#">Head</a></li>
-      <li><a href="#">Author</a></li>
-      <li><a href="#">Founder</a></li>
-      <li><a href="#">Headmaster</a></li>
-      <li><a href="#">Auror</a></li>
+      <li onclick="extractDataByValue('all')" class="underline active" style="font-size:1em;"><a href="#">All</a></li>
+      <li onclick="extractDataByValue('student')"><a href="#">Student</a></li>
+      <li onclick="extractDataByValue('Professor')"><a href="#">Professor</a></li>
+      <li onclick="extractDataByValue('Head')"><a href="#">Head</a></li>
+      <li onclick="extractDataByValue('Author')"><a href="#">Author</a></li>
+      <li onclick="extractDataByValue('Founder')"><a href="#">Founder</a></li>
+      <li onclick="extractDataByValue('Headmaster')"><a href="#">Headmaster</a></li>
+      <li onclick="extractDataByValue('Auror')"><a href="#">Auror</a></li>
     </ul>
   </div>
   <div class="main-characters-container grid-spells"></div>

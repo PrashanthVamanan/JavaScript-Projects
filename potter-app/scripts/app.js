@@ -9,6 +9,8 @@ const navContainer = document.querySelector('.nav-container');
 let spellsHolderContainer = null;
 let wandsHolderContainer = null;
 let charactersHolderContainer = null;
+let filterMenu = null;
+let filteredItems = null;
 
 let spellsData = null;
 let wandsData = null;
@@ -47,7 +49,7 @@ function getCharacterWandDetails() {
       charactersData = data;
       if (isRequestedPage('wands')) {
         wandsHolderContainer = document.querySelector('.wands-holder');
-        wandsData = extractData(charactersData, 'wand');
+        wandsData = extractDataByKey(charactersData, 'wand');
 
         totalPages = Math.ceil(wandsData.length / 12);
         totalPageTracker.textContent = totalPages;
@@ -69,7 +71,7 @@ function getCharacterWandDetails() {
     })
 }
 
-function extractData(data, key) {
+function extractDataByKey(data, key) {
   let filteredData = [];
   filteredData = data.filter(item => item[key] != null);
   return filteredData;
@@ -141,6 +143,45 @@ function getPropertiesForCurrentView(data) {
   }
 }
 
+function extractDataByValue(value) {
+  filteredItems = null;
+
+  toggleActiveClasses(value);
+
+  if(value.toLowerCase() === 'student') {
+    filteredItems = charactersData.filter(item => item.role != undefined && item.role === value.toLowerCase());
+  } else if(value.toLowerCase() === 'all') {
+    filteredItems = charactersData;
+  } else {
+    filteredItems = charactersData.filter(item => item.role != undefined && (item.role.toLowerCase().startsWith(value.toLowerCase()) || item.role.toLowerCase().includes(value.toLowerCase())));
+  }
+
+  totalPages = Math.ceil(filteredItems.length / 12);
+  totalPageTracker.textContent = totalPages;
+
+  if(parseInt(currentPageTracker.textContent) > 1) {
+    currentPage = 1;
+    currentPageTracker.textContent = 1;
+  }
+
+  let firstPageData = filteredItems.slice(0, 12);  
+  populateData(firstPageData, charactersHolderContainer);
+}
+
+function toggleActiveClasses(value) {
+  filterMenu = document.querySelectorAll('.filter-menu li');
+
+  filterMenu.forEach(item => {
+    if(item.textContent.toLowerCase() !== value.toLowerCase())
+      item.classList.remove(...item.classList);
+    else {
+      item.classList.add('underline');
+      item.classList.add('active');
+    }
+  })
+
+}
+
 function getHouseImage(houseName) {
   return houseName === undefined ? 'Hogwarts' : houseName;
 }
@@ -155,7 +196,8 @@ const incrementPage = () => {
     prevButton.style.display = 'block';
   } else if (currentPage === totalPages) {
     currentPageTracker.textContent = currentPage;
-    nextButton.style.display = 'none';
+    nextButton.style.display = 'none';  
+    prevButton.style.display = 'block';
   }
 }
 
@@ -168,6 +210,7 @@ const decrementPage = () => {
   } else if (currentPage == 1) {
     currentPageTracker.textContent = currentPage;
     prevButton.style.display = 'none';
+    nextButton.style.display = 'block';
   }
 }
 
@@ -186,7 +229,11 @@ function populateNextSet() {
     populateData(pageRecords, wandsHolderContainer);
   }
   else {
-    pageRecords = charactersData.slice(pageRecordsStart, pageRecordsEnd);
+    if(filteredItems != null)
+      pageRecords = filteredItems.slice(pageRecordsStart, pageRecordsEnd);
+    else 
+      pageRecords = charactersData.slice(pageRecordsStart, pageRecordsEnd);
+
     populateData(pageRecords, charactersHolderContainer);
   }
 }
