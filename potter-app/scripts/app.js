@@ -1,12 +1,14 @@
+//Dom References
 const currentPageTracker = document.querySelector('.current');
 const totalPageTracker = document.querySelector('.total');
 const prevButton = document.querySelector('.prev');
 const nextButton = document.querySelector('.next');
 const navContainer = document.querySelector('.nav-container');
 
-let spellHolderContainer = null;
-let wandHolderContainer = null;
-let characterHolderContainer = null;
+//Variables
+let spellsHolderContainer = null;
+let wandsHolderContainer = null;
+let charactersHolderContainer = null;
 
 let spellsData = null;
 let wandsData = null;
@@ -30,10 +32,9 @@ function getSpellDetails() {
       spellsData = data;
       totalPages = Math.ceil(spellsData.length / 12);
       totalPageTracker.textContent = totalPages;
-
-      spellHolderContainer = document.querySelector('.spells-holder');
+      spellsHolderContainer = document.querySelector('.spells-holder');
       let firstPageData = spellsData.slice(0, 12);
-      populateData(firstPageData,spellHolderContainer);
+      populateData(firstPageData, spellsHolderContainer);
     })
     .catch(err => {
       console.log("Error in fetching spells ", err);
@@ -45,18 +46,18 @@ function getCharacterWandDetails() {
     .then(data => {
       charactersData = data;
       if (isRequestedPage('wands')) {
-        wandHolderContainer = document.querySelector('.wands-holder');
+        wandsHolderContainer = document.querySelector('.wands-holder');
         wandsData = extractWandsData(charactersData);
-
         totalPages = Math.ceil(wandsData.length / 12);
         totalPageTracker.textContent = totalPages;
-
         let firstPageData = wandsData.slice(0, 12);
-        populateData(firstPageData, wandHolderContainer);
-
+        populateData(firstPageData, wandsHolderContainer);
       } else if (isRequestedPage('characters')) {
-        characterHolderContainer = document.querySelector('.main-characters-container');
-        populateData(charactersData, characterHolderContainer);
+        charactersHolderContainer = document.querySelector('.main-characters-container');
+        totalPages = Math.ceil(charactersData.length / 12);
+        totalPageTracker.textContent = totalPages;
+        let firstPageData = charactersData.slice(0, 12);
+        populateData(firstPageData, charactersHolderContainer);
       }
     }).catch(err => {
       console.log('Error in fetching characters data ', err);
@@ -70,17 +71,16 @@ function extractWandsData(charactersData) {
 }
 
 /** 
- * Need to render image based on house property
- * Do Pagination on characters page
  * Filter characters data based on tab selected
  */
 
- function populateData(data, container) {
+function populateData(data, container) {
   container.innerHTML = '';
-  let view = getCurrentView(location.pathname);
+  let pageName = location.pathname.split("/").pop().split(".")[0];
+  let view = pageName === 'characters' ? 'house' : pageName.slice(0, pageName.length - 1);
 
   data.forEach(item => {
-    let imageId = isRequestedPage('characters') ? 'gryffindor' : imageToPick[Math.floor(Math.random() * imageToPick.length)];
+    let imageId = isRequestedPage('characters') ? getHouseImage(item.house) : imageToPick[Math.floor(Math.random() * imageToPick.length)];
     let properties = getPropertiesForCurrentView(item);
     let keys = Object.keys(properties);
 
@@ -100,50 +100,47 @@ function extractWandsData(charactersData) {
 
     container.innerHTML += html;
   })
- }
+}
 
- function isRequestedPage(path){
-   return location.pathname.includes(path) ? true : false;
- }
+function isRequestedPage(path) {
+  return location.pathname.includes(path) ? true : false;
+}
 
-  function getCurrentView(pathname) {
-    if(pathname.includes('wands'))
-      return 'wand';
-    else if(pathname.includes('spells'))
-      return 'spell';
-    else
-      return 'house';
-  } 
+function getPropertiesForCurrentView(data) {
+  if (isRequestedPage('spells')) {
+    let { spell: prop1, type: prop2, effect: prop3 } = data;
 
-  function getPropertiesForCurrentView(data) {
-    if (isRequestedPage('spells')) {
-      let { spell: prop1, type: prop2, effect: prop3 } = data;
+    return {
+      spell: prop1,
+      type: prop2,
+      effect: prop3
+    };
 
-      return { 
-        spell: prop1, 
-        type: prop2, 
-        effect: prop3 
-      };
+  } else if (isRequestedPage('wands')) {
+    let { wand: prop1, name: prop2, species: prop3 } = data;
 
-    } else if (isRequestedPage('wands')) {
-      let { wand: prop1, name: prop2, species: prop3 } = data;
+    return {
+      wand: prop1,
+      name: prop2,
+      species: prop3
+    };
 
-      return { 
-        wand: prop1, 
-        name: prop2, 
-        species: prop3 
-      };
+  } else {
+    let { name: prop1, bloodStatus: prop2, species: prop3 } = data;
 
-    } else {
-      let { name: prop1, bloodStatus: prop2, species: prop3 } = data;
-
-      return { 
-        name: prop1, 
-        bloodStatus: prop2, 
-        species: prop3 
-      };
-    }
+    return {
+      name: prop1,
+      bloodStatus: prop2,
+      species: prop3
+    };
   }
+}
+
+function getHouseImage(houseName) {
+  return houseName === undefined ? 'Hogwarts' : houseName;
+}
+
+/** Pagination Related Functions **/
 
 const incrementPage = () => {
   currentPage += 1;
@@ -169,32 +166,22 @@ const decrementPage = () => {
   }
 }
 
-function populateNextSet(value) {
-  if (value) {
-    let nextPageRecordsStart = (currentPage - 1) * 12;
-    let nextPageRecordsEnd = (currentPage * 12);
-    let nextPageRecords = null;
+function populateNextSet() {
 
-    if (location.pathname.includes("spells")) {
-      nextPageRecords = spellsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
-      populateData(nextPageRecords, spellHolderContainer);
-    }
-    else {
-      nextPageRecords = wandsData.slice(nextPageRecordsStart, nextPageRecordsEnd);
-      populateData(nextPageRecords, wandHolderContainer);
-    }
-  } else {
-    let previousPageRecordsStart = (currentPage - 1) * 12;
-    let previousPageRecordsEnd = currentPage * 12;
-    let prevPageRecords = null;
+  let pageRecordsStart = (currentPage - 1) * 12;
+  let pageRecordsEnd = (currentPage * 12);
+  let pageRecords = null;
 
-    if (isRequestedPage('spells')) {
-      prevPageRecords = spellsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
-      populateData(prevPageRecords, spellHolderContainer);
-    }
-    else {
-      prevPageRecords = wandsData.slice(previousPageRecordsStart, previousPageRecordsEnd);
-      populateData(prevPageRecords, wandHolderContainer);
-    }
+  if (isRequestedPage("spells")) {
+    pageRecords = spellsData.slice(pageRecordsStart, pageRecordsEnd);
+    populateData(pageRecords, spellsHolderContainer);
+  }
+  else if (isRequestedPage("wands")) {
+    pageRecords = wandsData.slice(pageRecordsStart, pageRecordsEnd);
+    populateData(pageRecords, wandsHolderContainer);
+  }
+  else {
+    pageRecords = charactersData.slice(pageRecordsStart, pageRecordsEnd);
+    populateData(pageRecords, charactersHolderContainer);
   }
 }
