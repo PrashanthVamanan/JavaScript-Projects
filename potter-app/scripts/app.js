@@ -47,26 +47,31 @@ function getCharacterWandDetails() {
       charactersData = data;
       if (isRequestedPage('wands')) {
         wandsHolderContainer = document.querySelector('.wands-holder');
-        wandsData = extractWandsData(charactersData);
+        wandsData = extractData(charactersData, 'wand');
+
         totalPages = Math.ceil(wandsData.length / 12);
         totalPageTracker.textContent = totalPages;
         let firstPageData = wandsData.slice(0, 12);
+
         populateData(firstPageData, wandsHolderContainer);
+
       } else if (isRequestedPage('characters')) {
         charactersHolderContainer = document.querySelector('.main-characters-container');
         totalPages = Math.ceil(charactersData.length / 12);
+
         totalPageTracker.textContent = totalPages;
         let firstPageData = charactersData.slice(0, 12);
         populateData(firstPageData, charactersHolderContainer);
+
       }
     }).catch(err => {
       console.log('Error in fetching characters data ', err);
     })
 }
 
-function extractWandsData(charactersData) {
+function extractData(data, key) {
   let filteredData = [];
-  filteredData = charactersData.filter(character => character.wand != null);
+  filteredData = data.filter(item => item[key] != null);
   return filteredData;
 }
 
