@@ -1,0 +1,83 @@
+/* variables */
+:root {
+  --primary: #07689f;
+  --secondary: #232931;
+}
+
+/* reset styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+/** Base Styles **/
+
+body {
+  font-family: 'Balsamiq Sans';
+  background-color: var(--primary);
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+header {
+  background-color: var(--secondary);
+  width: 100%;
+}
+
+header h2 {
+  letter-spacing: 0.1em;
+  border-bottom: 2px solid #654062;
+  font-size: 2em;
+  color: #f4f4f4;
+}
+
+.team-container {
+  margin: 30px auto;
+  max-width: 400px;
+  border: 7px solid var(--secondary);
+  text-align: center;
+}
+
+.team-container h4 {
+  border-bottom: 2px solid var(--secondary);
+}
+
+.team-container label, .team-container h4 {
+  color: #f9f7f7;
+  font-size: 1.5em;
+}
+
+.team-container select {
+  margin: 20px auto;
+  width: 50%;
+}
+
+.button-container {
+  justify-content: center;
+  margin: 10px 0px;
+}
+
+.footer {
+  width: 100%;
+  background: var(--secondary);
+  color: white;
+}
+
+.footer p {
+  margin: 22px auto;
+}
+
+/** Media Queries **/
+
+@media screen and (min-width:760px) {
+  header h2 {
+    font-size: 3em;
+  }
+}
