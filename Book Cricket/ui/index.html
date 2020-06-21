@@ -20,7 +20,7 @@
   <div class="team-container">
     <h4 class="my-2 py-4">Team Selection</h4>
     <label for="home_team">Choose your team:</label>
-    <select id="home_team" class="form-control">
+    <select id="home_team" class="form-control" onchange="populateAwayTeams()">
      <option value="-1">Select a team</option>
     </select>
     <label for="away_team">Choose opponent team:</label>
@@ -29,7 +29,7 @@
     </select>
   </div>
   <div class="d-flex button-container">
-    <button class="btn btn-warning">Let's Play</button>
+    <a href="match.html"><button class="btn btn-warning">Let's Play</button></a>
   </div>
   <div class="d-flex justify-content-center footer">
     <p>Created with &hearts; by SPrashanthV</p>

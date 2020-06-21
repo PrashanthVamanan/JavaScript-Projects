@@ -16,8 +16,8 @@ const nations = [
     value: "South Africa"
   },
   {
-    key: "Sl",
-    value: "Sri Lanka"
+    key: "Ind",
+    value: "India"
   },
   {
     key: "Wi",

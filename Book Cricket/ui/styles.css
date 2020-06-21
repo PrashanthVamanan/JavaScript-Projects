@@ -19,6 +19,9 @@ body {
   font-family: 'Balsamiq Sans';
   background-color: var(--primary);
   font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .grid {
@@ -43,15 +46,19 @@ header h2 {
   max-width: 400px;
   border: 7px solid var(--secondary);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 70%;
 }
 
-.team-container h4 {
+.team-container h4, .home-team-players h4, .away-team-players h4 {
   border-bottom: 2px solid var(--secondary);
 }
 
 .team-container label, .team-container h4 {
   color: #f9f7f7;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .team-container select {
@@ -70,14 +77,42 @@ header h2 {
   color: white;
 }
 
-.footer p {
-  margin: 22px auto;
+
+.home-team-players h4, .away-team-players h4{
+  text-align: center;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+} 
+
+.players-list li{
+  margin: 3px;
+  padding: 3px;
+}
+
+.grid .home-team-players {
+  grid-column: 1/6;
+}
+
+.away-team-players {
+  grid-column: 7/13;
+}
+
+.player-styles {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-players-container {
+  max-width: 100%;
 }
 
 /** Media Queries **/
 
 @media screen and (min-width:760px) {
-  header h2 {
-    font-size: 3em;
+  .player-styles, .players-list {
+    align-items: center;
   }
 }
