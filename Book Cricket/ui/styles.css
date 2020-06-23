@@ -88,8 +88,10 @@ header h2 {
 } 
 
 .players-list li{
-  margin: 3px;
-  padding: 3px;
+  margin: 10px auto;
+  padding: 5px;
+  border: 2px solid #000;
+  border-radius: 50px;
 }
 
 .grid .home-team-players {
@@ -118,6 +120,21 @@ header h2 {
   .team-container select {
     margin: 20px auto;
     width: 80%;
+  }
+  .players-list {
+    align-items: center;
+  }
+  .players-list li {
+    border-radius: 5px;
+    margin: 3px;
+    padding: 3px;
+    width: 80%;
+  }
+  .grid .home-team-players {
+    grid-column: 1/13;
+  }
+  .grid .away-team-players {
+    grid-column: 1/13;
   }
 }
 

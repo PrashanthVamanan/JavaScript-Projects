@@ -6,3 +6,10 @@ const getTeams = async () => {
   const response = teams.json();
   return response;
 }
+
+const getTeamPlayers = async teamKey => {
+  let route = 'players';
+  const players = await fetch(`${base}${route}/${teamKey}`);
+  const response = players.json();
+  return response;
+}

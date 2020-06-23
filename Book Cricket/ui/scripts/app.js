@@ -1,6 +1,10 @@
 //Dom References
 const homeTeam = document.querySelector('#home_team');
 const awayTeam = document.querySelector('#away_team');
+let homePlayersList = null;
+let awayPlayersList = null;
+
+//Variables
 let teamsData = null;
 
 const populateTeamsList = (data, container) => {
@@ -49,6 +53,38 @@ const setTeamsInformation = () => {
   //Set home and away team names
   document.querySelector('.home-team-name').textContent = teamsInfo.home;
   document.querySelector('.away-team-name').textContent = teamsInfo.away;
+
+  homePlayersList = document.querySelector('.home-team-players .players-list');
+  awayPlayersList = document.querySelector('.away-team-players .players-list');
+
+
+  //Get playersList for home and away teams
+  for (let [key,value] of Object.entries(teamsInfo)) {
+    getTeamPlayers(value)
+      .then(data => {
+        let container = key === 'home' ? homePlayersList : awayPlayersList;
+        populatePlayersList(data, container);
+      })
+      .catch(err => {
+        console.log("Error in fetching players data ", err);
+      })
+  }
+}
+
+const populatePlayersList = (playerList, container) => {
+
+  container.innerHTML = '';
+
+  playerList.forEach(player => {
+    let html = `
+      <li style="background: maroon;">
+        <span>${player}</span>
+        <span>-</span>
+        <span id=${player}></span>
+      </li>
+    `
+    container.innerHTML += html;
+  })
 }
 
 const setLocalStorage = () => {
