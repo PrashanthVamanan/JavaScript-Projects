@@ -22,7 +22,7 @@ const nations = [
   {
     key: "Wi",
     value: "West Indies"
-  },
+  }
 ]
 
 module.exports = nations;

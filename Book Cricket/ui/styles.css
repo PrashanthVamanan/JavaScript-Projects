@@ -111,6 +111,16 @@ header h2 {
 
 /** Media Queries **/
 
+@media screen and (max-width: 500px) {
+  .team-container {
+    width: 60%;
+  }
+  .team-container select {
+    margin: 20px auto;
+    width: 80%;
+  }
+}
+
 @media screen and (min-width:760px) {
   .player-styles, .players-list {
     align-items: center;

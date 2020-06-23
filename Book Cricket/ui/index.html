@@ -20,13 +20,9 @@
   <div class="team-container">
     <h4 class="my-2 py-4">Team Selection</h4>
     <label for="home_team">Choose your team:</label>
-    <select id="home_team" class="form-control" onchange="populateAwayTeams()">
-     <option value="-1">Select a team</option>
-    </select>
+    <select id="home_team" class="form-control" onchange="updateTeamsList('home')"></select>
     <label for="away_team">Choose opponent team:</label>
-    <select id="away_team" class="form-control">
-      <option value="-1">Select a team</option>
-    </select>
+    <select id="away_team" class="form-control" onchange="updateTeamsList('away')"></select>
   </div>
   <div class="d-flex button-container">
     <a href="match.html"><button class="btn btn-warning">Let's Play</button></a>
