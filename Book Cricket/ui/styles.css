@@ -1,6 +1,6 @@
 /* variables */
 :root {
-  --primary: #07689f;
+  --primary: #aacdbe;
   --secondary: #232931;
 }
 
@@ -109,6 +109,44 @@ header h2 {
 
 .team-players-container {
   max-width: 100%;
+}
+
+/* player-country related styles */
+
+.Aus {
+  background: #f5a31a;
+  color: #06623b;
+  border: 2px solid #06623b !important;
+}
+
+.Wi {
+  background: maroon;
+  color: #f3f3f3;
+  border: 2px solid maroon !important;
+}
+
+.Eng {
+  background: #40bad5;
+  color: #fa1616;
+  border: 2px solid #40bad5 !important;
+}
+
+.Ind {
+  background: #07689f;
+  color: #fa7d09;
+  border: 2px solid #07689f !important;
+}
+
+.Rsa {
+  background: #06623b;
+  color: #f5a31a;
+  border: 2px solid #f5a31a !important;
+}
+
+.Nz {
+  background: #404040;
+  color: #f3f3f3;
+  border: 2px solid #404040 !important;
 }
 
 /** Media Queries **/

@@ -51,8 +51,13 @@ const setTeamsInformation = () => {
   let teamsInfo = JSON.parse(localStorage.getItem('teams'));
 
   //Set home and away team names
-  document.querySelector('.home-team-name').textContent = teamsInfo.home;
-  document.querySelector('.away-team-name').textContent = teamsInfo.away;
+  const homeTeamName = document.querySelector('.home-team-name');
+  const awayTeamName = document.querySelector('.away-team-name');
+
+  homeTeamName.textContent = teamsInfo.home;
+  homeTeamName.classList.add(teamsInfo.home);
+  awayTeamName.textContent = teamsInfo.away;
+  awayTeamName.classList.add(teamsInfo.away);
 
   homePlayersList = document.querySelector('.home-team-players .players-list');
   awayPlayersList = document.querySelector('.away-team-players .players-list');
@@ -63,7 +68,7 @@ const setTeamsInformation = () => {
     getTeamPlayers(value)
       .then(data => {
         let container = key === 'home' ? homePlayersList : awayPlayersList;
-        populatePlayersList(data, container);
+        populatePlayersList(data, container, value);
       })
       .catch(err => {
         console.log("Error in fetching players data ", err);
@@ -71,13 +76,13 @@ const setTeamsInformation = () => {
   }
 }
 
-const populatePlayersList = (playerList, container) => {
+const populatePlayersList = (playerList, container, className) => {
 
   container.innerHTML = '';
 
   playerList.forEach(player => {
     let html = `
-      <li style="background: maroon;">
+      <li class=${className}>
         <span>${player}</span>
         <span>-</span>
         <span id=${player}></span>
@@ -85,6 +90,16 @@ const populatePlayersList = (playerList, container) => {
     `
     container.innerHTML += html;
   })
+
+  let totalHtml = `
+    <li class=${className}>
+      <span>Total</span>
+      <span>-</span>
+      <span id=Total${className}></span>
+    </li>
+  `
+  container.innerHTML += totalHtml;
+
 }
 
 const setLocalStorage = () => {
