@@ -41,6 +41,11 @@ header h2 {
   color: #f4f4f4;
 }
 
+.header-style div {
+  grid-column: span 13;
+  text-align: center;
+}
+
 .team-container {
   margin: 30px auto;
   max-width: 400px;
@@ -95,11 +100,18 @@ header h2 {
 }
 
 .grid .home-team-players {
-  grid-column: 1/6;
+  grid-column: 1/4;
+}
+
+.grid .current-score {
+  grid-column: 5/8;
+  margin: 40vh auto;
+  align-items: center;
+  width: 100%;
 }
 
 .away-team-players {
-  grid-column: 7/13;
+  grid-column: 9/13;
 }
 
 .player-styles {
@@ -151,7 +163,7 @@ header h2 {
 
 /** Media Queries **/
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 617px) {
   .team-container {
     width: 60%;
   }
@@ -168,6 +180,11 @@ header h2 {
     padding: 3px;
     width: 80%;
   }
+  .grid .current-score {
+    grid-column: 1/13;
+    margin: 0px;
+    text-align: center;
+  }
   .grid .home-team-players {
     grid-column: 1/13;
   }
@@ -179,5 +196,12 @@ header h2 {
 @media screen and (min-width:760px) {
   .player-styles, .players-list {
     align-items: center;
+  }
+  .header-style div {
+    display: flex;
+    justify-content: space-between;
+  }
+  .header-style div h2, .header-style div a {
+    margin: 0px 20px;
   }
 }

@@ -14,14 +14,22 @@
 </head>
 
 <body onload="setTeamsInformation()">
-  <header class="d-flex justify-content-center py-2">
-    <h2>Book Cricket</h2>
+  <header class="grid header-style py-2">
+    <div>
+      <h2>Book Cricket</h2>
+      <a onclick="startMatch()"><button class="btn btn-warning">Start Match !</button></a>
+    </div>
   </header>
   <div class="team-players-container">
     <div class="team-players grid">
       <div class="home-team-players player-styles">
         <h4 class="m-2 p-2 home-team-name"></h4>
         <ul class="players-list"></ul>
+      </div>
+      <div class="d-none flex-column current-score">
+        <span class="current-player">
+          <span class="current-player-name">Marnus Labuschagne</span> scores 
+          <span class="current-player-score">3</span> runs</span></span>
       </div>
       <div class="away-team-players player-styles">
         <h4 class="m-2 p-2 away-team-name"></h4>

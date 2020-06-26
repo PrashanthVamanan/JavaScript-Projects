@@ -1,8 +1,10 @@
 //Dom References
 const homeTeam = document.querySelector('#home_team');
 const awayTeam = document.querySelector('#away_team');
+let currentScoreContainer = null;
 let homePlayersList = null;
 let awayPlayersList = null;
+let counter = 0;
 
 //Variables
 let teamsData = null;
@@ -48,7 +50,13 @@ const updateTeamsList = team => {
 
 const setTeamsInformation = () => {
 
+  if(!localStorage.getItem('teams')) {
+    setLocalStorage(); 
+  }
+
   let teamsInfo = JSON.parse(localStorage.getItem('teams'));
+  currentScoreContainer = document.querySelector('.current-score');
+
 
   //Set home and away team names
   const homeTeamName = document.querySelector('.home-team-name');
@@ -82,10 +90,9 @@ const populatePlayersList = (playerList, container, className) => {
 
   playerList.forEach(player => {
     let html = `
-      <li class=${className}>
+      <li class=${className} id=${player.replace(/ /g, "")}>
         <span>${player}</span>
-        <span>-</span>
-        <span id=${player}></span>
+        <span></span>
       </li>
     `
     container.innerHTML += html;
@@ -94,12 +101,17 @@ const populatePlayersList = (playerList, container, className) => {
   let totalHtml = `
     <li class=${className}>
       <span>Total</span>
-      <span>-</span>
       <span id=Total${className}></span>
     </li>
   `
   container.innerHTML += totalHtml;
+}
 
+const redirectToMatch = () => {
+  if(!localStorage.getItem('teams')) {
+    setLocalStorage();
+  }
+  window.location.href = 'match.html';
 }
 
 const setLocalStorage = () => {
@@ -113,3 +125,20 @@ const setLocalStorage = () => {
 
 if (!location.pathname.includes("match"))
   getTeamsData();
+
+/** Start Match */ 
+
+const startMatch = () => {
+  //Enable the live scorer box
+  currentScoreContainer.classList.remove('d-none');
+  currentScoreContainer.classList.add('d-flex');
+
+  let homeTeamPlayers = document.querySelectorAll('.home-team-players li');
+
+  homeTeamPlayers.forEach(player => {
+    if(player.innerText != 'Total') {
+      let text = player.innerText.replace(/ /g, "");
+      let playerItem = document.getElementById(text);
+    }
+  })
+}
