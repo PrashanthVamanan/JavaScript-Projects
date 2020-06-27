@@ -4,7 +4,6 @@ const awayTeam = document.querySelector('#away_team');
 let currentScoreContainer = null;
 let homePlayersList = null;
 let awayPlayersList = null;
-let counter = 0;
 
 //Variables
 let teamsData = null;
@@ -50,8 +49,8 @@ const updateTeamsList = team => {
 
 const setTeamsInformation = () => {
 
-  if(!localStorage.getItem('teams')) {
-    setLocalStorage(); 
+  if (!localStorage.getItem('teams')) {
+    setLocalStorage();
   }
 
   let teamsInfo = JSON.parse(localStorage.getItem('teams'));
@@ -72,7 +71,7 @@ const setTeamsInformation = () => {
 
 
   //Get playersList for home and away teams
-  for (let [key,value] of Object.entries(teamsInfo)) {
+  for (let [key, value] of Object.entries(teamsInfo)) {
     getTeamPlayers(value)
       .then(data => {
         let container = key === 'home' ? homePlayersList : awayPlayersList;
@@ -108,7 +107,7 @@ const populatePlayersList = (playerList, container, className) => {
 }
 
 const redirectToMatch = () => {
-  if(!localStorage.getItem('teams')) {
+  if (!localStorage.getItem('teams')) {
     setLocalStorage();
   }
   window.location.href = 'match.html';
@@ -126,7 +125,24 @@ const setLocalStorage = () => {
 if (!location.pathname.includes("match"))
   getTeamsData();
 
-/** Start Match */ 
+/** Start Match */
+
+/**
+ * 1. Get all home and away players in an array
+ 
+ * 2. Run a loop for all elements in the array
+ 
+ *      2.1 Generate a random number between 0 and 6 (inclusive)
+ 
+ *      2.2 while random number is not zero
+ 
+ *          2.2.1 Add the score to the current player and update ui
+ *                If it is zero break out of the while loop
+ * 
+ *      Update the total to the current player score
+ * 
+ *      Read the next player and repeat the process
+ */
 
 const startMatch = () => {
   //Enable the live scorer box
@@ -134,11 +150,55 @@ const startMatch = () => {
   currentScoreContainer.classList.add('d-flex');
 
   let homeTeamPlayers = document.querySelectorAll('.home-team-players li');
+  let awayTeamPlayers = document.querySelectorAll('.away-team-players li');
+  let playersList = [...homeTeamPlayers, ...awayTeamPlayers];
 
-  homeTeamPlayers.forEach(player => {
-    if(player.innerText != 'Total') {
-      let text = player.innerText.replace(/ /g, "");
-      let playerItem = document.getElementById(text);
+  simulateMatch(playersList);
+}
+
+const simulateMatch = playerList => {
+
+  const currentPlayerName = document.querySelector('.current-player-name');
+  const currentPlayerScore = document.querySelector('.current-player-score');
+  const currentPlayerDiv = document.querySelector('.current-player');
+
+  let player = playerList[0];
+
+  // playerList.forEach(player => {
+  if (player.innerText != 'Total') {
+
+    let randomScore = Math.floor(Math.random() * 7);
+    let text = player.innerText.replace(/ /g, "");
+    let playerItem = document.getElementById(text);
+    let playerScoreTotal = 0;
+
+    if (randomScore === 0) {
+      currentPlayerDiv.textContent = `${playerItem.children[0].innerText} is out !`;
+    } else {
+      currentPlayerName.textContent = playerItem.children[0].innerText;
+      currentPlayerScore.textContent = randomScore;
+      playerItem.children[1].innerText = randomScore + playerScoreTotal;
+      simulatePlayerScores(currentPlayerScore, currentPlayerName, currentPlayerDiv, playerItem, randomScore);
     }
-  })
+  }
+  // })
+}
+
+function simulatePlayerScores(currentPlayerScore, currentPlayerName, currentPlayerDiv, playerItem, randomScore) {
+  let totalPlayerScore = randomScore;
+  let timer = setInterval(() => {
+    randomScore = Math.floor(Math.random() * 7);
+    if (randomScore === 0) {
+      currentPlayerName.textContent = null;
+      currentPlayerScore.textContent = null;
+      currentPlayerDiv.textContent = `${playerItem.children[0].innerText} is out !`;
+      clearInterval(timer);
+    }
+    else {
+      totalPlayerScore += randomScore;
+      playerItem.children[1].innerText = totalPlayerScore;
+      currentPlayerScore.textContent = randomScore;
+      currentPlayerName.textContent = playerItem.children[0].innerText;
+    }
+  }, 2000)
 }

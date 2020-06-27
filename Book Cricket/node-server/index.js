@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 app.use(cors());
-const expressPort = 3001;
+const expressPort = 3000;
 
 const teams = require('./data/countries');
 const players = require('./data/players');
