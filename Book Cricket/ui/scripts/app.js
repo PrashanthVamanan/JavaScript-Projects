@@ -1,12 +1,24 @@
 //Dom References
 const homeTeam = document.querySelector('#home_team');
 const awayTeam = document.querySelector('#away_team');
+
+//Variables
 let currentScoreContainer = null;
 let homePlayersList = null;
 let awayPlayersList = null;
-
-//Variables
+let currentPlayerDiv = null;
+let currentPlayerScore = null;
+let currentPlayerName = null;
 let teamsData = null;
+let currentPlayerIndex = 0;
+let totalPlayersIndex = 0;
+let playersList = null;
+let homeTeamTotal = 0;
+let awayTeamTotal = 0;
+let teamsObj = {};
+let home = null;
+let away = null;
+let restartButton = null;
 
 const populateTeamsList = (data, container) => {
   container.innerHTML = '';
@@ -125,80 +137,102 @@ const setLocalStorage = () => {
 if (!location.pathname.includes("match"))
   getTeamsData();
 
-/** Start Match */
-
-/**
- * 1. Get all home and away players in an array
- 
- * 2. Run a loop for all elements in the array
- 
- *      2.1 Generate a random number between 0 and 6 (inclusive)
- 
- *      2.2 while random number is not zero
- 
- *          2.2.1 Add the score to the current player and update ui
- *                If it is zero break out of the while loop
- * 
- *      Update the total to the current player score
- * 
- *      Read the next player and repeat the process
- */
-
 const startMatch = () => {
   //Enable the live scorer box
   currentScoreContainer.classList.remove('d-none');
   currentScoreContainer.classList.add('d-flex');
 
-  let homeTeamPlayers = document.querySelectorAll('.home-team-players li');
-  let awayTeamPlayers = document.querySelectorAll('.away-team-players li');
-  let playersList = [...homeTeamPlayers, ...awayTeamPlayers];
-
-  simulateMatch(playersList);
+  simulateMatch();
 }
 
-const simulateMatch = playerList => {
+const simulateMatch = (isHomeTeamCompleted = false) => {
+  //Dom References
+  currentPlayerName = document.querySelector('.current-player-name');
+  currentPlayerScore = document.querySelector('.current-player-score');
+  currentPlayerDiv = document.querySelector('.current-player-out');
+  restartButton = document.querySelector('.restart-button');
 
-  const currentPlayerName = document.querySelector('.current-player-name');
-  const currentPlayerScore = document.querySelector('.current-player-score');
-  const currentPlayerDiv = document.querySelector('.current-player');
+  let homeTeamPlayer = homePlayersList.children[currentPlayerIndex];
 
-  let player = playerList[0];
-
-  // playerList.forEach(player => {
-  if (player.innerText != 'Total') {
-
-    let randomScore = Math.floor(Math.random() * 7);
-    let text = player.innerText.replace(/ /g, "");
-    let playerItem = document.getElementById(text);
-    let playerScoreTotal = 0;
-
-    if (randomScore === 0) {
-      currentPlayerDiv.textContent = `${playerItem.children[0].innerText} is out !`;
-    } else {
-      currentPlayerName.textContent = playerItem.children[0].innerText;
-      currentPlayerScore.textContent = randomScore;
-      playerItem.children[1].innerText = randomScore + playerScoreTotal;
-      simulatePlayerScores(currentPlayerScore, currentPlayerName, currentPlayerDiv, playerItem, randomScore);
-    }
+  if(!isHomeTeamCompleted)
+    simulatePlayerScores(homeTeamPlayer, homePlayersList);
+  if(isHomeTeamCompleted){
+    let awayTeamPlayer = awayPlayersList.children[currentPlayerIndex];
+    simulatePlayerScores(awayTeamPlayer, awayPlayersList);
   }
-  // })
 }
 
-function simulatePlayerScores(currentPlayerScore, currentPlayerName, currentPlayerDiv, playerItem, randomScore) {
-  let totalPlayerScore = randomScore;
-  let timer = setInterval(() => {
-    randomScore = Math.floor(Math.random() * 7);
-    if (randomScore === 0) {
-      currentPlayerName.textContent = null;
-      currentPlayerScore.textContent = null;
-      currentPlayerDiv.textContent = `${playerItem.children[0].innerText} is out !`;
-      clearInterval(timer);
-    }
-    else {
-      totalPlayerScore += randomScore;
-      playerItem.children[1].innerText = totalPlayerScore;
-      currentPlayerScore.textContent = randomScore;
-      currentPlayerName.textContent = playerItem.children[0].innerText;
-    }
-  }, 2000)
+function simulatePlayerScores(player, container) {
+  teamsObj = JSON.parse(localStorage.getItem('teams'));
+  home = teamsObj.home;
+  away = teamsObj.away;
+
+  let totalPlayerScore = 0;
+  let randomScore = Math.floor(Math.random() * 7);
+  let text = player.innerText.replace(/ /g, "");
+  let playerItem = document.getElementById(text);
+
+  if (totalPlayersIndex === 11) {
+    currentPlayerIndex = 0;
+    totalPlayersIndex++;
+    simulateMatch(true);
+  } else if (totalPlayersIndex === 23) {
+    updateAwayTeamResults(home, away);
+    return;
+  }
+
+  if (playerItem != null) {
+    updateCurrentPlayerItem(playerItem, randomScore);
+
+    let timer = setInterval(() => {
+      if (player.innerText != 'Total') {
+        playerItem.children[1].innerText = totalPlayerScore;
+        updateCurrentPlayerItem(playerItem, randomScore);
+
+        if (randomScore === 0) {
+          currentPlayerDiv.textContent = `${playerItem.children[0].innerText} is out !`;
+          clearInterval(timer);
+
+          totalPlayersIndex += 1;
+          currentPlayerIndex += 1;
+
+          if (totalPlayersIndex === 11) {
+            updateHomeTeamResults(home, away);
+          }
+
+          simulatePlayerScores(container.children[currentPlayerIndex], container);
+        }
+        else {
+          totalPlayerScore += randomScore;
+          homeTeamTotal = totalPlayersIndex < 11 ? homeTeamTotal + randomScore : homeTeamTotal;
+          awayTeamTotal = totalPlayersIndex > 11 ? awayTeamTotal + randomScore : awayTeamTotal;
+        }
+        if (awayTeamTotal > homeTeamTotal) {
+          updateAwayTeamResults(home, away, true);
+          clearInterval(timer);
+          return;
+        }
+        randomScore = Math.floor(Math.random() * 7);
+      }
+    }, 1200)
+  }
 }
+
+const updateCurrentPlayerItem = (playerItem, randomScore) => {
+  currentPlayerScore.textContent = randomScore;
+  currentPlayerName.textContent = playerItem.children[0].innerText;
+  document.getElementById(`Total${home}`).textContent = homeTeamTotal;
+  if(totalPlayersIndex > 11 )  document.getElementById(`Total${away}`).textContent = awayTeamTotal;
+}
+
+const updateHomeTeamResults = (home, away) => {
+  currentPlayerDiv.textContent = `${home} innings is Over!, Starting ${away} Innings...`;
+}
+
+const updateAwayTeamResults = (home, away, isCrossed = false) => {
+  document.querySelector('.current-player').textContent = '';
+  currentPlayerDiv.textContent = isCrossed ? `${away} Win!` : `${home} Win`;
+  restartButton.classList.add('d-flex');
+}
+
+const reloadPage = () => location.reload();

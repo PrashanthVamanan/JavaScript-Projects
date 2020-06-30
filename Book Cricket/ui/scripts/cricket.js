@@ -1,4 +1,4 @@
-let base = 'http://localhost:3000/';
+let base = 'http://localhost:3001/';
 
 const getTeams = async () => {
   let route = 'teams';
