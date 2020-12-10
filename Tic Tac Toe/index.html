@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Tic Tac Toe (3 X 3)</title>
+</head>
+<body>
+  <h2 class="title-text">Tic Tac Toe (3 X 3)</h2>
+  <div class="outer-container">
+    <div class="player">
+      <h5 class="title-text">Player's Turn</h5>
+      <form>
+        <label for="xValue">X Position:  
+          <input type="text" id="xValue">
+        </label><br>
+        <label for="yValue">Y Position:  
+          <input type="text" id="yValue">
+        </label><br>
+        <button type="submit" class="submit">Submit</button>
+      </form>
+      <div class="error-message">
+        *Please enter a valid position
+      </div>
+    </div>
+    <div class="container">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </div>
+    <div class="computer">
+      <h5 class="title-text">Computer's Turn</h5>
+      <p class="p-text" id="xValueComp"></p>
+      <p class="p-text" id="yValueComp"></p>
+    </div>
+  </div>
+  <div class="game-status">
+    <p>Player has won the game</p>
+    <button type="button" class="restart">Restart Game</button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
